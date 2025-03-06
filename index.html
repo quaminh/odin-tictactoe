@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odin TicTacToe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-body">
+        <h1 class="title">TIC<span class="alt">TAC</span>TOE</h1>
+        <div class="button-section">
+            <button class="control-btn">New Game</button>
+            <button class="control-btn">Clear Grid</button>
+        </div>
+        <div class="player-info">
+            <p class="player-symbol p1-color">X</p>
+            <h2>Player 1's Turn</h2>
+            <p class="player-symbol p2-color inactive">O</p>
+        </div>
+        <div class="game-grid">
+            <button class="cell empty"></button>
+            <button class="cell empty"></button>
+            <button class="cell">X</button>
+            <button class="cell empty"></button>
+            <button class="cell empty"></button>
+            <button class="cell empty"></button>
+            <button class="cell empty"></button>
+            <button class="cell empty"></button>
+            <button class="cell empty"></button>
+        </div>
+        <div class="score-section">
+            <h2>SCORES</h2>
+            <div class="score-container">
+                <div class="score">
+                    <h3 class="p1-color">Player 1</h3>
+                    <p>1</p>
+                </div>
+                <div class="score">
+                    <h3 class="p2-color">Player 2</h3>
+                    <p>2</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

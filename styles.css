@@ -1,0 +1,102 @@
+:root {
+    --player-one-color: rgb(0, 89, 255);
+    --player-two-color: rgb(255, 98, 98);
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body, h1, h2, h3, p {
+    margin: 0;
+}
+
+.p1-color {
+    color: var(--player-one-color);
+}
+
+.p2-color {
+    color: var(--player-two-color);
+}
+
+.main-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.title {
+    font-size: 3rem;
+    color: rgb(255, 185, 95);
+    text-shadow: 0px 3px rgb(255, 141, 76);
+}
+.alt {
+    color: rgb(255, 218, 95);
+}
+
+.button-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+.control-btn {
+    font-size: 1.5rem;
+    padding: 5px 25px;
+    border-radius: 50px;
+    background-color: rgb(255, 185, 95);
+    cursor: pointer;
+}
+.control-btn:hover {
+    background-color: rgb(255, 205, 138);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.player-symbol {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.inactive {
+    opacity: .25;
+}
+
+.game-grid {
+    display: grid;
+    width: min(500px, 75vw);
+    height: min(500px, 75vw);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.cell {
+    font-size: 5rem;
+    font-weight: bold;
+    background-color: white;
+    cursor: pointer;
+}
+.empty:hover {
+    background-color: aliceblue;
+}
+
+.score-section {
+    text-align: center;
+}
+
+.score-section > h2 {
+    margin: 25px;
+}
+
+.score-container {
+    display: flex;
+    gap: 50px;
+}
+
+.score > p {
+    font-size: 2rem;
+}
