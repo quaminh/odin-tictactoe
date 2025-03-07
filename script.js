@@ -67,8 +67,9 @@ function Player(name, token, symbol) {
 
     const getScore = () => score;
     const addScore = () => ++score;
+    const resetScore = () => score = 0;
 
-    return { name, token, symbol, getScore, addScore };
+    return { name, token, symbol, getScore, addScore, resetScore };
 }
 
 function GameController(player1 = "Player 1", player2 = "Player 2") {
@@ -76,10 +77,13 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
     
     const players = [
         Player(player1, 1, "X"),
-        Player(player2, 2, "O")
+        Player(player2, 2, "O"),
+        Player("Draws", 3, "")
     ];
 
     let activePlayer = players[0];
+    let gameOver = false;
+    let winCon = 0;
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -89,15 +93,14 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
 
     const getPlayerTwo = () => players[1];
 
+    const getDraws = () => players[2];
+
     const getActivePlayer = () => activePlayer;
 
     const printRound = () => {
         console.log(`${activePlayer.name}'s Turn`);
         console.log(board.getBoard());
     };
-
-    let gameOver = false;
-    let winCon = 0;
 
     const playRound = (row, col) => {
         if (gameOver) return winCon;
@@ -123,6 +126,16 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
         return 0;
     };
 
+    const restartGame = () => {
+        activePlayer = (
+            players[0].getScore() +
+            players[1].getScore() +
+            players[2].getScore()) % 2 === 0 ? players[0] : players[1];
+        gameOver = false;
+        winCon = 0;
+        board.clearBoard();
+    }
+
     const isGameOver = () => gameOver;
 
     printRound();
@@ -131,8 +144,10 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
         playRound,
         getPlayerOne,
         getPlayerTwo,
+        getDraws,
         getActivePlayer,
         getBoard: board.getBoard,
+        restartGame,
         isGameOver
     };
 }
@@ -145,6 +160,9 @@ function ScreenController() {
     const playerTwoSymbol = document.querySelector("#p2-symbol");
     const playerOneScore = document.querySelector("#p1-score");
     const playerTwoScore = document.querySelector("#p2-score");
+    const drawScore = document.querySelector("#draw-score");
+    const restartButton = document.querySelector("#restart-btn");
+    const newGameButton = document.querySelector("#new-game-btn");
 
     const updateScreen = (gameStatus) => {
         gameGrid.textContent = "";
@@ -153,6 +171,7 @@ function ScreenController() {
         const activePlayer = game.getActivePlayer();
         const playerOne = game.getPlayerOne();
         const playerTwo = game.getPlayerTwo();
+        const draws = game.getDraws();
 
         playerOneSymbol.textContent = playerOne.symbol;
         playerTwoSymbol.textContent = playerTwo.symbol;
@@ -167,16 +186,26 @@ function ScreenController() {
         }
         else if (gameStatus === 3) {
             playerTurn.textContent = "DRAW!"
+            draws.addScore();
+
         }
         else {
             playerTurn.textContent = `< ${activePlayer.name}'s Turn >`;
-            playerOneSymbol.classList.toggle("inactive");
-            playerTwoSymbol.classList.toggle("inactive");
-            gameGrid.classList.toggle("p2-active");
+            if (activePlayer.token === 1) {
+                playerOneSymbol.classList.remove("inactive");
+                playerTwoSymbol.classList.add("inactive");
+                gameGrid.classList.remove("p2-active");
+            }
+            else {
+                playerOneSymbol.classList.add("inactive");
+                playerTwoSymbol.classList.remove("inactive");
+                gameGrid.classList.add("p2-active");
+            }
         }
 
         playerOneScore.textContent = playerOne.getScore();
         playerTwoScore.textContent = playerTwo.getScore();
+        drawScore.textContent = draws.getScore();
 
         board.forEach((row, rowIndex) => {
             row.forEach((value, colIndex) => {
@@ -210,6 +239,12 @@ function ScreenController() {
         }
     }
     gameGrid.addEventListener("click", handleBoardClick);
+
+    function handleRestart(e) {
+        game.restartGame();
+        updateScreen();
+    }
+    restartButton.addEventListener("click", handleRestart);
 
     updateScreen();
 }

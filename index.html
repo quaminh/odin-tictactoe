@@ -10,8 +10,8 @@
     <div class="main-body">
         <h1 class="title">TIC<span class="alt-color">TAC</span>TOE</h1>
         <div class="button-section">
-            <button class="control-btn">New Game</button>
-            <button class="control-btn">Clear Grid</button>
+            <button id="restart-btn" class="control-btn">Restart</button>
+            <button id="new-game-btn" class="control-btn">New Game</button>
         </div>
         <div class="player-info">
             <p id="p1-symbol" class="player-symbol p1-color inactive">X</p>
@@ -29,6 +29,10 @@
                 <div class="score">
                     <h3 class="p2-color">Player 2</h3>
                     <p id="p2-score">0</p>
+                </div>
+                <div class="score">
+                    <h3 class="draw-color">Draws</h3>
+                    <p id="draw-score">0</p>
                 </div>
             </div>
         </div>
