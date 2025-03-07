@@ -183,6 +183,7 @@ function ScreenController() {
     const playerOneSymbolInput = document.querySelector("#p1-symbol-input");
     const playerTwoNameInput = document.querySelector("#p2-name-input");
     const playerTwoSymbolInput = document.querySelector("#p2-symbol-input");
+    const formCancelButton = document.querySelector("#cancel-btn");
 
     const updateScreen = (gameStatus) => {
         gameGrid.textContent = "";
@@ -290,15 +291,11 @@ function ScreenController() {
     }
     form.addEventListener("submit", handleNewGame);
 
+    formCancelButton.addEventListener("click", () => {
+        dialog.close();
+    });
+
     updateScreen();
 }
 
 ScreenController();
-
-// const game = GameController();
-// let gameEnd = false;
-// while (!gameEnd) {
-//     let input = prompt("Enter Coordinates:");
-//     input = input.split(",");
-//     gameEnd = game.playRound(input[0], input[1]);
-// }

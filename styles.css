@@ -59,6 +59,9 @@ body, h1, h2, h3, p {
 .control-btn:hover {
     background-color: var(--secondary-color);
 }
+.control-btn:active {
+    background-color: rgb(226, 84, 231);
+}
 
 .player-info {
     display: flex;
@@ -176,7 +179,6 @@ form input {
     justify-content: center;
     gap: 20px;
     grid-column: 1 / 3;
-    /* padding: 20px; */
 }
 
 #submit-btn, #cancel-btn {
