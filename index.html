@@ -23,11 +23,11 @@
             <h2>SCORES</h2>
             <div class="score-container">
                 <div class="score">
-                    <h3 class="p1-color">Player 1</h3>
+                    <h3 id="p1-score-name" class="p1-color">Player 1</h3>
                     <p id="p1-score">0</p>
                 </div>
                 <div class="score">
-                    <h3 class="p2-color">Player 2</h3>
+                    <h3 id="p2-score-name" class="p2-color">Player 2</h3>
                     <p id="p2-score">0</p>
                 </div>
                 <div class="score">
@@ -37,6 +37,36 @@
             </div>
         </div>
     </div>
+    <dialog>
+        <form>
+            <div class="form-section">
+                <h2 class="p1-color">PLAYER ONE</h2>
+                <div class="input-box">
+                    <label for="p1-name-input">NAME</label>
+                    <input id="p1-name-input" type="text" name="p1-name" placeholder="Player 1">
+                </div>
+                <div class="input-box">
+                    <label for="p1-symbol-input">SYMBOL</label>
+                    <input id="p1-symbol-input" type="text" name="p1-symbol" placeholder="X" maxlength="1">
+                </div>
+            </div>
+            <div class="form-section">
+                <h2 class="p2-color">PLAYER TWO</h2>
+                <div class="input-box">
+                    <label for="p2-name-input">NAME</label>
+                    <input id="p2-name-input" type="text" name="p2-name" placeholder="Player 2">
+                </div>
+                <div class="input-box">
+                    <label for="p2-symbol-input">SYMBOL</label>    
+                    <input id="p2-symbol-input" type="text" name="p2-symbol" placeholder="O" maxlength="1">
+                </div>
+            </div>
+            <div class="form-buttons">   
+                <button id="submit-btn">Let's Go!</button>
+                <button id="cancel-btn" formmethod="dialog">Cancel</button>
+            </div>
+        </form>
+    </dialog>
     <script src="script.js"></script>
 </body>
 </html>

@@ -136,6 +136,17 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
         board.clearBoard();
     }
 
+    const newGame = (p1Name, p1Symbol, p2Name, p2Symbol) => {
+        players[0].name = p1Name;
+        players[0].symbol = p1Symbol;
+        players[0].resetScore();
+        players[1].name = p2Name;
+        players[1].symbol = p2Symbol;
+        players[1].resetScore();
+        players[2].resetScore();
+        restartGame();
+    }
+
     const isGameOver = () => gameOver;
 
     printRound();
@@ -147,8 +158,9 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
         getDraws,
         getActivePlayer,
         getBoard: board.getBoard,
+        isGameOver,
         restartGame,
-        isGameOver
+        newGame
     };
 }
 
@@ -158,11 +170,19 @@ function ScreenController() {
     const playerTurn = document.querySelector(".player-info > h2");
     const playerOneSymbol = document.querySelector("#p1-symbol");
     const playerTwoSymbol = document.querySelector("#p2-symbol");
+    const playerOneScoreName = document.querySelector("#p1-score-name");
     const playerOneScore = document.querySelector("#p1-score");
+    const playerTwoScoreName = document.querySelector("#p2-score-name");
     const playerTwoScore = document.querySelector("#p2-score");
     const drawScore = document.querySelector("#draw-score");
     const restartButton = document.querySelector("#restart-btn");
     const newGameButton = document.querySelector("#new-game-btn");
+    const dialog = document.querySelector("dialog");
+    const form = document.querySelector("form");
+    const playerOneNameInput = document.querySelector("#p1-name-input");
+    const playerOneSymbolInput = document.querySelector("#p1-symbol-input");
+    const playerTwoNameInput = document.querySelector("#p2-name-input");
+    const playerTwoSymbolInput = document.querySelector("#p2-symbol-input");
 
     const updateScreen = (gameStatus) => {
         gameGrid.textContent = "";
@@ -203,7 +223,9 @@ function ScreenController() {
             }
         }
 
+        playerOneScoreName.textContent = playerOne.name;
         playerOneScore.textContent = playerOne.getScore();
+        playerTwoScoreName.textContent = playerTwo.name;
         playerTwoScore.textContent = playerTwo.getScore();
         drawScore.textContent = draws.getScore();
 
@@ -245,6 +267,28 @@ function ScreenController() {
         updateScreen();
     }
     restartButton.addEventListener("click", handleRestart);
+
+    newGameButton.addEventListener("click", (e) => {
+        dialog.showModal();
+    });
+
+    function handleNewGame(e) {
+        e.preventDefault();
+        const playerOneName = playerOneNameInput.value ?
+            playerOneNameInput.value : "Player 1";
+        const playerOneSymbol = playerOneSymbolInput.value ?
+            playerOneSymbolInput.value : "X";
+        const playerTwoName = playerTwoNameInput.value ?
+            playerTwoNameInput.value : "Player 2";
+        const playerTwoSymbol = playerTwoSymbolInput.value ?
+            playerTwoSymbolInput.value : "O";
+        game.newGame(
+            playerOneName, playerOneSymbol,
+            playerTwoName, playerTwoSymbol);
+        updateScreen();
+        dialog.close();
+    }
+    form.addEventListener("submit", handleNewGame);
 
     updateScreen();
 }
