@@ -1,4 +1,6 @@
 :root {
+    --primary-color: rgb(154, 34, 201);
+    --secondary-color: rgb(186, 46, 190);
     --player-one-color: rgb(0, 89, 255);
     --player-two-color: rgb(255, 98, 98);
 
@@ -25,12 +27,13 @@ body, h1, h2, h3, p {
 }
 
 .title {
+    padding: 25px;
     font-size: 5rem;
-    color: rgb(255, 185, 95);
-    text-shadow: 0px 5px rgb(255, 141, 76);
+    color: var(--primary-color);
+    text-shadow: 0px 5px rgb(94, 27, 170);
 }
-.alt {
-    color: rgb(255, 218, 95);
+.alt-color {
+    color: var(--secondary-color);
 }
 
 .button-section {
@@ -43,12 +46,14 @@ body, h1, h2, h3, p {
 .control-btn {
     font-size: 1.5rem;
     padding: 5px 25px;
+    border: 2px black solid;
     border-radius: 50px;
-    background-color: rgb(255, 185, 95);
+    color: white;
+    background-color: var(--primary-color);
     cursor: pointer;
 }
 .control-btn:hover {
-    background-color: rgb(255, 205, 138);
+    background-color: var(--secondary-color);
 }
 
 .player-info {
@@ -82,6 +87,15 @@ body, h1, h2, h3, p {
 .empty:hover {
     background-color: aliceblue;
     cursor: pointer;
+}
+.empty:active {
+    background-color: rgb(218, 238, 255);
+}
+.p2-active .empty:hover {
+    background-color: rgb(255, 240, 240);
+}
+.p2-active .empty:active {
+    background-color: rgb(255, 218, 218);
 }
 
 .score-section {

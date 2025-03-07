@@ -1,11 +1,6 @@
 function GameBoard() {
     const size = 3;
-    // const board = [];
-    const board = [
-        [0,1,0],
-        [2,0,0],
-        [0,1,0]
-    ]
+    const board = [];
 
     const getBoard = () => board;
 
@@ -62,13 +57,18 @@ function GameBoard() {
         }
     }
 
-    // clearBoard();
+    clearBoard();
 
     return { getBoard, placeToken, checkWinCondition, clearBoard };
 }
 
 function Player(name, token, symbol) {
-    return { name, token, symbol };
+    let score = 0;
+
+    const getScore = () => score;
+    const addScore = () => ++score;
+
+    return { name, token, symbol, getScore, addScore };
 }
 
 function GameController(player1 = "Player 1", player2 = "Player 2") {
@@ -96,9 +96,14 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
         console.log(board.getBoard());
     };
 
+    let gameOver = false;
+    let winCon = 0;
+
     const playRound = (row, col) => {
+        if (gameOver) return winCon;
+
         board.placeToken(row, col, activePlayer.token);
-        const winCon = board.checkWinCondition();
+        winCon = board.checkWinCondition();
         if (winCon !== 0) {
             switch (winCon) {
                 case 1:
@@ -110,12 +115,15 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
                 case 3:
                     console.log("DRAW");
             }
+            gameOver = true;
             return winCon;
         }
         switchPlayerTurn();
         printRound();
         return 0;
     };
+
+    const isGameOver = () => gameOver;
 
     printRound();
 
@@ -124,21 +132,51 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
         getPlayerOne,
         getPlayerTwo,
         getActivePlayer,
-        getBoard: board.getBoard };
+        getBoard: board.getBoard,
+        isGameOver
+    };
 }
 
 function ScreenController() {
     const game = GameController();
     const gameGrid = document.querySelector(".game-grid");
     const playerTurn = document.querySelector(".player-info > h2");
+    const playerOneSymbol = document.querySelector("#p1-symbol");
+    const playerTwoSymbol = document.querySelector("#p2-symbol");
+    const playerOneScore = document.querySelector("#p1-score");
+    const playerTwoScore = document.querySelector("#p2-score");
 
-    const updateScreen = () => {
+    const updateScreen = (gameStatus) => {
         gameGrid.textContent = "";
 
         const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
+        const playerOne = game.getPlayerOne();
+        const playerTwo = game.getPlayerTwo();
 
-        playerTurn.textContent = `< ${activePlayer.name}'s Turn >`;
+        playerOneSymbol.textContent = playerOne.symbol;
+        playerTwoSymbol.textContent = playerTwo.symbol;
+
+        if (gameStatus === 1) {
+            playerTurn.textContent = `${playerOne.name} WINS!`;
+            playerOne.addScore();
+        }
+        else if (gameStatus === 2) {
+            playerTurn.textContent = `${playerTwo.name} WINS!`;
+            playerTwo.addScore();
+        }
+        else if (gameStatus === 3) {
+            playerTurn.textContent = "DRAW!"
+        }
+        else {
+            playerTurn.textContent = `< ${activePlayer.name}'s Turn >`;
+            playerOneSymbol.classList.toggle("inactive");
+            playerTwoSymbol.classList.toggle("inactive");
+            gameGrid.classList.toggle("p2-active");
+        }
+
+        playerOneScore.textContent = playerOne.getScore();
+        playerTwoScore.textContent = playerTwo.getScore();
 
         board.forEach((row, rowIndex) => {
             row.forEach((value, colIndex) => {
@@ -148,14 +186,14 @@ function ScreenController() {
                 cellButton.dataset.col = colIndex;
                 if (value !== 0) {
                     cellButton.textContent = (value === 1) ?
-                        game.getPlayerOne().symbol :
-                        game.getPlayerTwo().symbol;
+                        playerOne.symbol :
+                        playerTwo.symbol;
                     cellButton.classList.add((value === 1) ?
                         "p1-color" : "p2-color"
                     );
                 }
                 else {
-                    cellButton.classList.toggle("empty");
+                    cellButton.classList.add("empty");
                 }
                 gameGrid.appendChild(cellButton);
             })
@@ -164,9 +202,11 @@ function ScreenController() {
 
     function handleBoardClick(e) {
         const cell = e.target;
-        if (cell.classList.contains("cell") && cell.classList.contains("empty")) {
-            game.playRound(cell.dataset.row, cell.dataset.col);
-            updateScreen();
+        if (cell.classList.contains("cell") && 
+            cell.classList.contains("empty") &&
+            !game.isGameOver()) {
+                const gameStatus = game.playRound(cell.dataset.row, cell.dataset.col);
+                updateScreen(gameStatus);
         }
     }
     gameGrid.addEventListener("click", handleBoardClick);
